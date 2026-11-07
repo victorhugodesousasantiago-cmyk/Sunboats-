@@ -91,3 +91,12 @@
  .nav-cta{font-size:10px;padding:8px;min-height:36px;flex:0 0 auto}
  .menu-toggle{width:28px;flex:0 0 28px}
 }
+
+.spec-sheet{border-bottom:1px solid var(--line);background:var(--paper)}
+.spec-sheet summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:13px 25px;font-size:12px;font-weight:800;color:#0a657e;letter-spacing:.04em}
+.spec-sheet summary::-webkit-details-marker{display:none}
+.spec-sheet summary span{font-size:17px;color:#ff9c20;transition:transform .2s}
+.spec-sheet[open] summary span{transform:rotate(45deg)}
+.spec-sheet ul{margin:0;padding:0 25px 18px;list-style:none;display:grid;gap:8px}
+.spec-sheet li{font-size:12px;color:var(--muted);line-height:1.5}
+.spec-sheet li strong{color:#102c41;font-weight:800}

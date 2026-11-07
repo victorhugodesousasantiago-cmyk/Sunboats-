@@ -100,66 +100,6 @@ $('#bookingForm').addEventListener('submit', async (event) => {
 });
 
 
-// Seletor de filmes: um único player reproduz apenas o clipe escolhido.
-const cinemaVideo = document.getElementById('cinemaVideo');
-const cinemaToggle = document.getElementById('cinemaToggle');
-const filmChoices = document.querySelectorAll('.cinema-choice');
-let cinemaUserPaused = false;
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-function syncCinemaButton() {
-  if (!cinemaVideo || !cinemaToggle) return;
-  const paused = cinemaVideo.paused;
-  cinemaToggle.setAttribute('aria-label', paused ? 'Reproduzir vídeo' : 'Pausar vídeo');
-  cinemaToggle.innerHTML = paused ? '<span aria-hidden="true">▶</span>' : '<span aria-hidden="true">Ⅱ</span>';
-}
-function playCinema() {
-  if (!cinemaVideo) return;
-  const attempt = cinemaVideo.play();
-  if (attempt?.catch) attempt.catch(() => { cinemaUserPaused=true; syncCinemaButton(); });
-}
-if (cinemaVideo && cinemaToggle) {
-  if (reducedMotion.matches) {
-    cinemaUserPaused = true;
-    cinemaVideo.pause();
-  }
-  cinemaToggle.addEventListener('click', () => {
-    cinemaUserPaused = !cinemaVideo.paused;
-    if (cinemaVideo.paused) {
-      cinemaUserPaused = false;
-      playCinema();
-    } else {
-      cinemaUserPaused = true;
-      cinemaVideo.pause();
-    }
-    syncCinemaButton();
-  });
-  cinemaVideo.addEventListener('play',syncCinemaButton);
-  cinemaVideo.addEventListener('pause',syncCinemaButton);
-  filmChoices.forEach((button) => {
-    button.addEventListener('click',() => {
-      if (button.classList.contains('active')) { playCinema(); cinemaUserPaused=false; return; }
-      filmChoices.forEach((b)=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',b===button?'true':'false');});
-      cinemaVideo.pause();
-      cinemaVideo.src=button.dataset.video;
-      cinemaVideo.poster=button.dataset.poster || '';
-      cinemaVideo.setAttribute('aria-label',button.dataset.label || 'Vídeo Sunboats');
-      cinemaVideo.load();
-      cinemaUserPaused=false;
-      playCinema();
-      if (window.innerWidth<761) cinemaVideo.scrollIntoView({behavior:reducedMotion.matches?'auto':'smooth',block:'center'});
-    });
-  });
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting && !cinemaUserPaused && !reducedMotion.matches) playCinema();
-        else if (!entry.isIntersecting && !cinemaVideo.paused) cinemaVideo.pause();
-      }
-    },{threshold:.2}).observe(cinemaVideo);
-  }
-  syncCinemaButton();
-}
-
 // Galeria: zoom e navegação acessível; sem bibliotecas externas.
 const galleryItems = Array.from(document.querySelectorAll('[data-gallery]'));
 const photoDialog = document.getElementById('photoDialog');

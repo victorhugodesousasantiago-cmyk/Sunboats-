@@ -1,7 +1,7 @@
 /** Sunboats — configuração do site. Preencha somente com dados CONFIRMADOS. */
 const SITE_CONFIG = Object.freeze({
   // Coloque o WhatsApp OFICIAL, com DDI+DDD, só números. Ex.: '5561999999999'.
-  whatsappNumber: '556196285893',
+  whatsappNumber: '5561996285893',
   instagramUrl: 'https://www.instagram.com/sunboatsdf/',
   // Opcional: GTM/Meta Pixel são instalados separadamente com consentimento LGPD.
 });
